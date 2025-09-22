@@ -12,7 +12,7 @@ export const classes: Class[] = [
   { id: 'class-4', name: 'Class 11-B' },
 ];
 
-export const students: Student[] = [
+export let students: Student[] = [
   { id: 'student-1', nisn: '1001', fullName: 'Alice Johnson', gender: 'Perempuan', dateOfBirth: '2008-05-10', classId: 'class-1', email: 'alice@example.com' },
   { id: 'student-2', nisn: '1002', fullName: 'Bob Williams', gender: 'Laki-laki', dateOfBirth: '2008-03-15', classId: 'class-1', email: 'bob@example.com' },
   { id: 'student-3', nisn: '1003', fullName: 'Charlie Brown', gender: 'Laki-laki', dateOfBirth: '2008-07-20', classId: 'class-1' },
@@ -59,39 +59,35 @@ const generateAttendance = (): AttendanceRecord[] => {
   return records;
 };
 
-export const attendanceRecords: AttendanceRecord[] = generateAttendance();
+let attendanceRecords: AttendanceRecord[] = generateAttendance();
 
-// In-memory data manipulation functions (to simulate a database)
-// This is a simple implementation for demonstration purposes.
-let mockStudents = [...students];
-let mockAttendance = [...attendanceRecords];
-
-export const getStudents = () => mockStudents;
+// In-memory data manipulation functions
+export const getStudents = () => students;
 export const getClasses = () => classes;
-export const getAttendance = () => mockAttendance;
+export const getAttendance = () => attendanceRecords;
 
 export const addStudent = (student: Omit<Student, 'id'>) => {
   const newStudent: Student = {
     ...student,
     id: `student-${Date.now()}`,
   };
-  mockStudents.push(newStudent);
+  students.push(newStudent);
   return newStudent;
 }
 
 export const updateStudent = (id: string, data: Partial<Student>) => {
-  const index = mockStudents.findIndex(s => s.id === id);
+  const index = students.findIndex(s => s.id === id);
   if (index !== -1) {
-    mockStudents[index] = { ...mockStudents[index], ...data };
-    return mockStudents[index];
+    students[index] = { ...students[index], ...data };
+    return students[index];
   }
   return null;
 }
 
 export const deleteStudent = (id: string) => {
-  const index = mockStudents.findIndex(s => s.id === id);
+  const index = students.findIndex(s => s.id === id);
   if (index !== -1) {
-    mockStudents.splice(index, 1);
+    students.splice(index, 1);
     return true;
   }
   return false;
@@ -102,6 +98,6 @@ export const addAttendanceRecord = (record: Omit<AttendanceRecord, 'id'>) => {
     ...record,
     id: `att-${Date.now()}`
   };
-  mockAttendance.push(newRecord);
+  attendanceRecords.push(newRecord);
   return newRecord;
 }

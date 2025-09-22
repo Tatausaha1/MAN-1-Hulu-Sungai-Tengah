@@ -16,23 +16,6 @@ const studentSchema = z.object({
   classId: z.string().min(1, "Kelas wajib diisi"),
 });
 
-export async function getStudents() {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from("students")
-    .select("*")
-    .order("fullName", { ascending: true });
-
-  if (error) {
-    console.error("Error fetching students:", error);
-    return [];
-  }
-
-  return data;
-}
-
-
 export async function createStudent(formData: FormData) {
   const validatedFields = studentSchema.safeParse(Object.fromEntries(formData.entries()));
 
