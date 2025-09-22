@@ -3,6 +3,7 @@ import { StudentTable } from "./_components/student-table";
 import { Suspense } from "react";
 import type { Student, Class } from "@/lib/types";
 import { redirect } from "next/navigation";
+import { getClasses } from "@/lib/data";
 
 async function getStudentsData(): Promise<Student[]> {
     const supabase = await createClient();
