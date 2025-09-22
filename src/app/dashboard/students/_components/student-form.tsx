@@ -23,14 +23,14 @@ import { createStudent, updateStudentAction } from "@/lib/actions/student";
 import { useToast } from "@/hooks/use-toast";
 
 const studentFormSchema = z.object({
-  nisn: z.string().min(1, "NISN is required"),
-  fullName: z.string().min(1, "Full Name is required"),
-  gender: z.enum(["Laki-laki", "Perempuan"], { required_error: "Gender is required" }),
-  dateOfBirth: z.string().min(1, "Date of Birth is required"),
-  email: z.string().email("Invalid email address").optional().or(z.literal('')),
+  nisn: z.string().min(1, "NISN wajib diisi"),
+  fullName: z.string().min(1, "Nama Lengkap wajib diisi"),
+  gender: z.enum(["Laki-laki", "Perempuan"], { required_error: "Jenis Kelamin wajib diisi" }),
+  dateOfBirth: z.string().min(1, "Tanggal Lahir wajib diisi"),
+  email: z.string().email("Alamat email tidak valid").optional().or(z.literal('')),
   phone: z.string().optional(),
   address: z.string().optional(),
-  classId: z.string().min(1, "Class is required"),
+  classId: z.string().min(1, "Kelas wajib diisi"),
 });
 
 type StudentFormValues = z.infer<typeof studentFormSchema>;
@@ -92,7 +92,7 @@ export function StudentForm({ isOpen, onOpenChange, student, classes }: StudentF
         });
       } else {
         toast({
-          title: "Success",
+          title: "Sukses",
           description: result.success,
         });
         onOpenChange(false);
@@ -104,9 +104,9 @@ export function StudentForm({ isOpen, onOpenChange, student, classes }: StudentF
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent className="sm:max-w-lg w-[90vw] overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>{student ? "Edit Student" : "Add New Student"}</SheetTitle>
+          <SheetTitle>{student ? "Ubah Siswa" : "Tambah Siswa Baru"}</SheetTitle>
           <SheetDescription>
-            {student ? "Update the student's details." : "Fill in the form to add a new student."}
+            {student ? "Perbarui detail siswa." : "Isi formulir untuk menambahkan siswa baru."}
           </SheetDescription>
         </SheetHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
@@ -116,16 +116,16 @@ export function StudentForm({ isOpen, onOpenChange, student, classes }: StudentF
             {form.formState.errors.nisn && <p className="text-destructive text-sm">{form.formState.errors.nisn.message}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="fullName">Full Name</Label>
+            <Label htmlFor="fullName">Nama Lengkap</Label>
             <Input id="fullName" {...form.register("fullName")} />
             {form.formState.errors.fullName && <p className="text-destructive text-sm">{form.formState.errors.fullName.message}</p>}
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="gender">Gender</Label>
+              <Label htmlFor="gender">Jenis Kelamin</Label>
               <Select onValueChange={(value) => form.setValue('gender', value as 'Laki-laki' | 'Perempuan')} value={form.watch('gender')}>
                 <SelectTrigger id="gender">
-                  <SelectValue placeholder="Select gender" />
+                  <SelectValue placeholder="Pilih jenis kelamin" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Laki-laki">Laki-laki</SelectItem>
@@ -134,7 +134,7 @@ export function StudentForm({ isOpen, onOpenChange, student, classes }: StudentF
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="dateOfBirth">Date of Birth</Label>
+              <Label htmlFor="dateOfBirth">Tanggal Lahir</Label>
               <Input id="dateOfBirth" type="date" {...form.register("dateOfBirth")} />
               {form.formState.errors.dateOfBirth && <p className="text-destructive text-sm">{form.formState.errors.dateOfBirth.message}</p>}
             </div>
@@ -146,19 +146,19 @@ export function StudentForm({ isOpen, onOpenChange, student, classes }: StudentF
               {form.formState.errors.email && <p className="text-destructive text-sm">{form.formState.errors.email.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone">Telepon</Label>
               <Input id="phone" type="tel" {...form.register("phone")} />
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="address">Address</Label>
+            <Label htmlFor="address">Alamat</Label>
             <Textarea id="address" {...form.register("address")} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="classId">Class</Label>
+            <Label htmlFor="classId">Kelas</Label>
             <Select onValueChange={(value) => form.setValue('classId', value)} value={form.watch('classId')}>
               <SelectTrigger id="classId">
-                <SelectValue placeholder="Select a class" />
+                <SelectValue placeholder="Pilih kelas" />
               </SelectTrigger>
               <SelectContent>
                 {classes.map((c) => (
@@ -170,10 +170,10 @@ export function StudentForm({ isOpen, onOpenChange, student, classes }: StudentF
           </div>
           <SheetFooter className="pt-4">
             <SheetClose asChild>
-              <Button type="button" variant="outline">Cancel</Button>
+              <Button type="button" variant="outline">Batal</Button>
             </SheetClose>
             <Button type="submit" disabled={isPending}>
-              {isPending ? "Saving..." : "Save Changes"}
+              {isPending ? "Menyimpan..." : "Simpan Perubahan"}
             </Button>
           </SheetFooter>
         </form>

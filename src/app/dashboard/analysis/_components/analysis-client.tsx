@@ -30,9 +30,9 @@ export function AnalysisClient() {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Attendance Trend Analysis</CardTitle>
+          <CardTitle>Analisis Tren Kehadiran</CardTitle>
           <CardDescription>
-            Use our AI-powered tool to analyze historical attendance data. Identify trends, predict potential absenteeism, and get actionable insights.
+            Gunakan alat bertenaga AI kami untuk menganalisis data kehadiran historis. Identifikasi tren, prediksi potensi absensi, dan dapatkan wawasan yang dapat ditindaklanjuti.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -40,10 +40,10 @@ export function AnalysisClient() {
             {isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Analyzing...
+                Menganalisis...
               </>
             ) : (
-              "Run Analysis"
+              "Jalankan Analisis"
             )}
           </Button>
         </CardContent>
@@ -52,7 +52,7 @@ export function AnalysisClient() {
       {error && (
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Analysis Failed</AlertTitle>
+          <AlertTitle>Analisis Gagal</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
@@ -64,7 +64,7 @@ export function AnalysisClient() {
                 <div className="p-3 rounded-full bg-primary/10 text-primary">
                     <TrendingUp className="h-6 w-6" />
                 </div>
-                <CardTitle>Identified Trends</CardTitle>
+                <CardTitle>Tren yang Teridentifikasi</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground whitespace-pre-wrap">{analysisResult.trends}</p>
@@ -75,7 +75,7 @@ export function AnalysisClient() {
                 <div className="p-3 rounded-full bg-destructive/10 text-destructive">
                     <AlertTriangle className="h-6 w-6" />
                 </div>
-                <CardTitle>Absenteeism Predictions</CardTitle>
+                <CardTitle>Prediksi Absensi</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground whitespace-pre-wrap">{analysisResult.predictions}</p>
@@ -86,7 +86,7 @@ export function AnalysisClient() {
                 <div className="p-3 rounded-full bg-accent/10 text-accent-foreground">
                     <Lightbulb className="h-6 w-6" />
                 </div>
-                <CardTitle>Proactive Insights</CardTitle>
+                <CardTitle>Wawasan Proaktif</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground whitespace-pre-wrap">{analysisResult.insights}</p>

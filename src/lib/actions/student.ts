@@ -5,14 +5,14 @@ import { revalidatePath } from "next/cache";
 import { addStudent, updateStudent, deleteStudent as deleteStudentFromDb, getStudents } from "@/lib/data";
 
 const studentSchema = z.object({
-  nisn: z.string().min(1, "NISN is required"),
-  fullName: z.string().min(1, "Full Name is required"),
+  nisn: z.string().min(1, "NISN wajib diisi"),
+  fullName: z.string().min(1, "Nama Lengkap wajib diisi"),
   gender: z.enum(["Laki-laki", "Perempuan"]),
-  dateOfBirth: z.string().min(1, "Date of Birth is required"),
-  email: z.string().email("Invalid email address").optional().or(z.literal('')),
+  dateOfBirth: z.string().min(1, "Tanggal Lahir wajib diisi"),
+  email: z.string().email("Alamat email tidak valid").optional().or(z.literal('')),
   phone: z.string().optional(),
   address: z.string().optional(),
-  classId: z.string().min(1, "Class is required"),
+  classId: z.string().min(1, "Kelas wajib diisi"),
 });
 
 export async function createStudent(formData: FormData) {
@@ -20,22 +20,22 @@ export async function createStudent(formData: FormData) {
 
   if (!validatedFields.success) {
     return {
-      error: "Invalid fields",
+      error: "Isian tidak valid",
       details: validatedFields.error.flatten().fieldErrors,
     };
   }
 
   const students = getStudents();
   if (students.some(s => s.nisn === validatedFields.data.nisn)) {
-    return { error: 'A student with this NISN already exists.' };
+    return { error: 'Siswa dengan NISN ini sudah ada.' };
   }
 
   try {
     addStudent(validatedFields.data);
     revalidatePath("/dashboard/students");
-    return { success: "Student created successfully." };
+    return { success: "Siswa berhasil dibuat." };
   } catch (e) {
-    return { error: "Failed to create student." };
+    return { error: "Gagal membuat siswa." };
   }
 }
 
@@ -44,22 +44,22 @@ export async function updateStudentAction(id: string, formData: FormData) {
 
   if (!validatedFields.success) {
     return {
-      error: "Invalid fields",
+      error: "Isian tidak valid",
       details: validatedFields.error.flatten().fieldErrors,
     };
   }
   
   const students = getStudents();
   if (students.some(s => s.nisn === validatedFields.data.nisn && s.id !== id)) {
-    return { error: 'A student with this NISN already exists.' };
+    return { error: 'Siswa dengan NISN ini sudah ada.' };
   }
 
   try {
     updateStudent(id, validatedFields.data);
     revalidatePath("/dashboard/students");
-    return { success: "Student updated successfully." };
+    return { success: "Siswa berhasil diperbarui." };
   } catch (e) {
-    return { error: "Failed to update student." };
+    return { error: "Gagal memperbarui siswa." };
   }
 }
 
@@ -67,11 +67,11 @@ export async function deleteStudentAction(id: string) {
   try {
     const success = deleteStudentFromDb(id);
     if (!success) {
-      return { error: "Student not found." };
+      return { error: "Siswa tidak ditemukan." };
     }
     revalidatePath("/dashboard/students");
-    return { success: "Student deleted successfully." };
+    return { success: "Siswa berhasil dihapus." };
   } catch (e) {
-    return { error: "Failed to delete student." };
+    return { error: "Gagal menghapus siswa." };
   }
 }

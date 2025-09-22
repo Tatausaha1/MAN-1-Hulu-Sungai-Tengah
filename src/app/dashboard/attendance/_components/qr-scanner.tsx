@@ -30,7 +30,7 @@ export function QrScanner({ availableClasses }: QrScannerProps) {
   useEffect(() => {
     if (selectedClass && !isScannerActive) {
       setIsScannerActive(true);
-      setScanStatus({ type: 'info', message: 'Starting scanner...' });
+      setScanStatus({ type: 'info', message: 'Memulai pemindai...' });
 
       const scanner = new Html5Qrcode('reader');
       scannerRef.current = scanner;
@@ -38,8 +38,8 @@ export function QrScanner({ availableClasses }: QrScannerProps) {
       const onScanSuccess = async (decodedText: string) => {
         scanner.pause();
         try {
-          // Assuming QR code contains studentId
-          const result = await recordAttendance(decodedText, selectedClass, 'user-2'); // Hardcoded teacher ID
+          // Asumsi kode QR berisi studentId
+          const result = await recordAttendance(decodedText, selectedClass, 'user-2'); // ID guru di-hardcode
           
           if (result.error) {
             setScanStatus({ type: 'error', message: result.error });
@@ -47,24 +47,24 @@ export function QrScanner({ availableClasses }: QrScannerProps) {
             setScanStatus({ type: 'success', message: result.success!, data: result.data });
           }
         } catch (error) {
-          setScanStatus({ type: 'error', message: 'An unexpected error occurred.' });
+          setScanStatus({ type: 'error', message: 'Terjadi kesalahan tak terduga.' });
         }
         setTimeout(() => {
             if (scannerRef.current?.isScanning) {
                 scanner.resume();
             }
-            setScanStatus({ type: 'info', message: 'Ready to scan next QR code.' });
+            setScanStatus({ type: 'info', message: 'Siap memindai kode QR berikutnya.' });
         }, 3000);
       };
 
       const onScanFailure = (error: any) => {
-        // Ignore "QR code not found" errors
+        // Abaikan galat "QR code not found"
       };
 
       const config = { fps: 10, qrbox: { width: 250, height: 250 } };
       scanner.start({ facingMode: "environment" }, config, onScanSuccess, onScanFailure)
         .catch(err => {
-          setScanStatus({ type: 'error', message: `Scanner Error: ${err}. Please ensure camera access is allowed.` });
+          setScanStatus({ type: 'error', message: `Galat Pemindai: ${err}. Pastikan izin kamera diaktifkan.` });
         });
 
     } else if (!selectedClass && isScannerActive) {
@@ -73,14 +73,14 @@ export function QrScanner({ availableClasses }: QrScannerProps) {
             setIsScannerActive(false);
             setScanStatus(null);
         }).catch(err => {
-            console.error("Failed to stop scanner", err);
+            console.error("Gagal menghentikan pemindai", err);
         });
       }
     }
 
     return () => {
       if (scannerRef.current && scannerRef.current.isScanning) {
-        scannerRef.current.stop().catch(err => console.error("Cleanup failed", err));
+        scannerRef.current.stop().catch(err => console.error("Pembersihan gagal", err));
       }
     };
   }, [selectedClass, isScannerActive]);
@@ -88,17 +88,17 @@ export function QrScanner({ availableClasses }: QrScannerProps) {
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle className="text-2xl font-bold">QR Code Attendance</CardTitle>
-        <CardDescription>Select a class and point the camera at the student's QR code.</CardDescription>
+        <CardTitle className="text-2xl font-bold">Absensi Kode QR</CardTitle>
+        <CardDescription>Pilih kelas dan arahkan kamera ke kode QR siswa.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div>
           <label htmlFor="class-select" className="block text-sm font-medium text-gray-700 mb-2">
-            Select Class
+            Pilih Kelas
           </label>
           <Select value={selectedClass} onValueChange={setSelectedClass}>
             <SelectTrigger id="class-select" className="w-full">
-              <SelectValue placeholder="-- Choose a class to start scanning --" />
+              <SelectValue placeholder="-- Pilih kelas untuk mulai memindai --" />
             </SelectTrigger>
             <SelectContent>
               {availableClasses.map((cls) => (
@@ -119,15 +119,15 @@ export function QrScanner({ availableClasses }: QrScannerProps) {
                 {scanStatus.type === 'success' && <CheckCircle className="h-4 w-4" />}
                 {scanStatus.type === 'error' && <XCircle className="h-4 w-4" />}
                 <AlertTitle>
-                  {scanStatus.type === 'success' ? 'Success!' : scanStatus.type === 'error' ? 'Error!' : 'Status'}
+                  {scanStatus.type === 'success' ? 'Sukses!' : scanStatus.type === 'error' ? 'Error!' : 'Status'}
                 </AlertTitle>
                 <AlertDescription>
                   <p>{scanStatus.message}</p>
                   {scanStatus.type === 'success' && scanStatus.data && (
                     <div className="text-sm mt-2">
-                      <p><strong>Student:</strong> {scanStatus.data.studentName}</p>
-                      <p><strong>Class:</strong> {scanStatus.data.className}</p>
-                      <p><strong>Time:</strong> {scanStatus.data.time}</p>
+                      <p><strong>Siswa:</strong> {scanStatus.data.studentName}</p>
+                      <p><strong>Kelas:</strong> {scanStatus.data.className}</p>
+                      <p><strong>Waktu:</strong> {scanStatus.data.time}</p>
                     </div>
                   )}
                 </AlertDescription>

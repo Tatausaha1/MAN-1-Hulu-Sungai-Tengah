@@ -78,13 +78,13 @@ export function StudentTable({
   };
   
   const handleDelete = (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this student?")) return;
+    if (!window.confirm("Apakah Anda yakin ingin menghapus siswa ini?")) return;
     startTransition(async () => {
         const result = await deleteStudentAction(id);
         if (result.error) {
             toast({ title: 'Error', description: result.error, variant: 'destructive'});
         } else {
-            toast({ title: 'Success', description: result.success });
+            toast({ title: 'Sukses', description: result.success });
             // Optimistically update UI or re-fetch. For now, filter out.
             setStudents(prev => prev.filter(s => s.id !== id));
         }
@@ -96,7 +96,7 @@ export function StudentTable({
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <Input
-            placeholder="Search student name..."
+            placeholder="Cari nama siswa..."
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
@@ -112,10 +112,10 @@ export function StudentTable({
             }}
           >
             <SelectTrigger className="w-full md:w-48">
-              <SelectValue placeholder="Filter by class" />
+              <SelectValue placeholder="Filter berdasarkan kelas" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Classes</SelectItem>
+              <SelectItem value="all">Semua Kelas</SelectItem>
               {classes.map((c) => (
                 <SelectItem key={c.id} value={c.id}>
                   {c.name}
@@ -125,7 +125,7 @@ export function StudentTable({
           </Select>
         </div>
         <Button onClick={() => handleOpenForm()}>
-          <PlusCircle className="mr-2 h-4 w-4" /> Add Student
+          <PlusCircle className="mr-2 h-4 w-4" /> Tambah Siswa
         </Button>
       </div>
 
@@ -134,11 +134,11 @@ export function StudentTable({
           <TableHeader>
             <TableRow>
               <TableHead>NISN</TableHead>
-              <TableHead>Full Name</TableHead>
-              <TableHead>Class</TableHead>
-              <TableHead>Gender</TableHead>
+              <TableHead>Nama Lengkap</TableHead>
+              <TableHead>Kelas</TableHead>
+              <TableHead>Jenis Kelamin</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className="text-right">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -156,20 +156,20 @@ export function StudentTable({
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
+                          <span className="sr-only">Buka menu</span>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => handleOpenForm(student)}>
-                          Edit
+                          Ubah
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-destructive"
                           onClick={() => handleDelete(student.id)}
                           disabled={isPending}
                         >
-                          Delete
+                          Hapus
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -179,7 +179,7 @@ export function StudentTable({
             ) : (
               <TableRow>
                 <TableCell colSpan={6} className="text-center h-24">
-                  No students found.
+                  Tidak ada siswa yang ditemukan.
                 </TableCell>
               </TableRow>
             )}
@@ -195,10 +195,10 @@ export function StudentTable({
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
-            Previous
+            Sebelumnya
           </Button>
           <span className="text-sm">
-            Page {currentPage} of {totalPages}
+            Halaman {currentPage} dari {totalPages}
           </span>
           <Button
             variant="outline"
@@ -206,7 +206,7 @@ export function StudentTable({
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
           >
-            Next
+            Berikutnya
           </Button>
         </div>
       )}

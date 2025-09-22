@@ -10,17 +10,17 @@ export async function recordAttendance(studentId: string, classId: string, userI
 
   // Validations
   if (!studentId || !classId) {
-    return { error: 'Student ID and Class ID are required.' };
+    return { error: 'ID Siswa dan ID Kelas diperlukan.' };
   }
 
   const student = students.find(s => s.id === studentId);
   if (!student) {
-    return { error: 'Student not found.' };
+    return { error: 'Siswa tidak ditemukan.' };
   }
 
   const classObj = classes.find(c => c.id === classId);
   if (!classObj) {
-    return { error: 'Class not found.' };
+    return { error: 'Kelas tidak ditemukan.' };
   }
 
   const today = new Date();
@@ -33,7 +33,7 @@ export async function recordAttendance(studentId: string, classId: string, userI
   );
 
   if (existingRecord) {
-    return { error: `Student already marked as '${existingRecord.status}' today.` };
+    return { error: `Siswa sudah ditandai sebagai '${existingRecord.status}' hari ini.` };
   }
 
   // Record attendance
@@ -51,7 +51,7 @@ export async function recordAttendance(studentId: string, classId: string, userI
     revalidatePath('/dashboard/attendance');
 
     return { 
-      success: 'Attendance recorded successfully.',
+      success: 'Kehadiran berhasil dicatat.',
       data: {
         studentName: student.fullName,
         className: classObj.name,
@@ -59,6 +59,6 @@ export async function recordAttendance(studentId: string, classId: string, userI
       }
     };
   } catch (e) {
-    return { error: 'Failed to record attendance.' };
+    return { error: 'Gagal mencatat kehadiran.' };
   }
 }
