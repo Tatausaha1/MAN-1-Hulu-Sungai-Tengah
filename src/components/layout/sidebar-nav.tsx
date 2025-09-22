@@ -1,8 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BrainCircuit, LayoutDashboard, QrCode, Users, FileText } from "lucide-react";
+import { BrainCircuit, LayoutDashboard, QrCode, Users, FileText, Database } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -17,6 +18,7 @@ export const NAV_ITEMS = [
   { href: "/dashboard/attendance", label: "Attendance", icon: QrCode },
   { href: "/dashboard/analysis", label: "Analysis", icon: BrainCircuit },
   { href: "/dashboard/notes", label: "Notes", icon: FileText },
+  { href: "/dashboard/sql", label: "SQL Editor", icon: Database },
 ];
 
 export function SidebarNav({ isMobile = false, isCollapsed = false }) {
