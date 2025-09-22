@@ -1,3 +1,4 @@
+
 import { createClient } from "@/lib/utils/supabase/server";
 import { StudentTable } from "./_components/student-table";
 import { Suspense } from "react";

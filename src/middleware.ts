@@ -3,6 +3,7 @@ import { type NextRequest } from "next/server";
 import { updateSession } from "@/lib/utils/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
+  // updateSession akan me-refresh token sesi pengguna jika diperlukan
   return await updateSession(request);
 }
 

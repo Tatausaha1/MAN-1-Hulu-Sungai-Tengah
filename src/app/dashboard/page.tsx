@@ -1,3 +1,4 @@
+
 import { getStudents, getClasses, getAttendance } from "@/lib/data";
 import { DashboardClient } from "./_components/dashboard-client";
 import { createClient } from "@/lib/utils/supabase/server";

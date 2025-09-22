@@ -58,13 +58,15 @@ export async function updateSession(request: NextRequest) {
   );
 
   // This will refresh the session if it's expired
+  await supabase.auth.getUser();
+  
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
   const { pathname } = request.nextUrl;
 
-  // if user is not logged in, redirect to /login
+  // if user is not logged in, redirect to /login for protected routes
   if (!session && pathname.startsWith("/dashboard")) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
@@ -77,7 +79,6 @@ export async function updateSession(request: NextRequest) {
      url.pathname = "/dashboard";
      return NextResponse.redirect(url);
   }
-
 
   return response;
 }
