@@ -1,7 +1,14 @@
 import { getStudents, getClasses, getAttendance } from "@/lib/data";
 import { DashboardClient } from "./_components/dashboard-client";
+import { createClient } from "@/lib/utils/supabase/server";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const students = getStudents();
   const classes = getClasses();
   const attendanceRecords = getAttendance();
@@ -10,7 +17,7 @@ export default function DashboardPage() {
     <DashboardClient 
         students={students} 
         classes={classes} 
-        attendanceRecords={attendanceRecords} 
+        attendanceRecords={attendanceRecords}
     />
   );
 }

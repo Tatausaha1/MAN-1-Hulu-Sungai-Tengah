@@ -2,7 +2,8 @@
 
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import { addStudent, updateStudent, deleteStudent as deleteStudentFromDb, getStudents } from "@/lib/data";
+import { addStudent, updateStudent, deleteStudent as deleteStudentFromDb } from "@/lib/data";
+import { createClient } from "@/lib/utils/supabase/server";
 
 const studentSchema = z.object({
   nisn: z.string().min(1, "NISN wajib diisi"),
@@ -15,6 +16,23 @@ const studentSchema = z.object({
   classId: z.string().min(1, "Kelas wajib diisi"),
 });
 
+export async function getStudents() {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("students")
+    .select("*")
+    .order("fullName", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching students:", error);
+    return [];
+  }
+
+  return data;
+}
+
+
 export async function createStudent(formData: FormData) {
   const validatedFields = studentSchema.safeParse(Object.fromEntries(formData.entries()));
 
@@ -24,9 +42,11 @@ export async function createStudent(formData: FormData) {
       details: validatedFields.error.flatten().fieldErrors,
     };
   }
+  const supabase = await createClient();
+  const { data: students } = await supabase.from('students').select('nisn').eq('nisn', validatedFields.data.nisn);
 
-  const students = getStudents();
-  if (students.some(s => s.nisn === validatedFields.data.nisn)) {
+
+  if (students && students.length > 0) {
     return { error: 'Siswa dengan NISN ini sudah ada.' };
   }
 
@@ -49,8 +69,10 @@ export async function updateStudentAction(id: string, formData: FormData) {
     };
   }
   
-  const students = getStudents();
-  if (students.some(s => s.nisn === validatedFields.data.nisn && s.id !== id)) {
+  const supabase = await createClient();
+  const { data: students } = await supabase.from('students').select('id,nisn').eq('nisn', validatedFields.data.nisn);
+
+  if (students && students.length > 0 && students[0].id !== id) {
     return { error: 'Siswa dengan NISN ini sudah ada.' };
   }
 
