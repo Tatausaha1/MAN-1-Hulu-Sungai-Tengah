@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -15,6 +16,7 @@ import { Menu, School } from "lucide-react";
 import { SidebarNav } from "./sidebar-nav";
 import { usePathname } from "next/navigation";
 import { NAV_ITEMS } from "./sidebar-nav";
+import { logout } from "@/lib/actions/auth";
 
 export function Header() {
   const pathname = usePathname();
@@ -55,12 +57,16 @@ export function Header() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>Akun Saya</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
+          <DropdownMenuItem>Pengaturan</DropdownMenuItem>
+          <DropdownMenuItem>Dukungan</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <form action={logout}>
+            <button type="submit" className="w-full">
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </button>
+          </form>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
