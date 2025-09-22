@@ -28,7 +28,7 @@ export default function DashboardLayout({
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
               <School className="h-5 w-5 transition-all group-hover:scale-110" />
             </div>
-            {!isCollapsed && <span className="">School Hub</span>}
+            {!isCollapsed && <span className="">MAN 1 Hulu Sungai Tengah</span>}
           </Link>
         </div>
         <div className="flex-1 mt-4">

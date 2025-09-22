@@ -36,7 +36,7 @@ export function Header() {
               className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
             >
               <School className="h-5 w-5 transition-all group-hover:scale-110" />
-              <span className="sr-only">School Hub</span>
+              <span className="sr-only">MAN 1 Hulu Sungai Tengah</span>
             </a>
             <SidebarNav isMobile={true} />
           </nav>
