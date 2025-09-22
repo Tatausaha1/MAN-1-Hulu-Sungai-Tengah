@@ -21,7 +21,8 @@ export async function login(formData: FormData) {
   });
 
   if (error) {
-    return error.message;
+    console.error("Login Error:", error.message);
+    return "Login gagal: " + error.message;
   }
 
   revalidatePath("/", "layout");
