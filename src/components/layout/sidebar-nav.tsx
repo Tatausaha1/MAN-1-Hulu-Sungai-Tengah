@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BrainCircuit, LayoutDashboard, QrCode, Users } from "lucide-react";
+import { BrainCircuit, LayoutDashboard, QrCode, Users, FileText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Tooltip,
@@ -16,13 +16,14 @@ export const NAV_ITEMS = [
   { href: "/dashboard/students", label: "Students", icon: Users },
   { href: "/dashboard/attendance", label: "Attendance", icon: QrCode },
   { href: "/dashboard/analysis", label: "Analysis", icon: BrainCircuit },
+  { href: "/dashboard/notes", label: "Notes", icon: FileText },
 ];
 
 export function SidebarNav({ isMobile = false, isCollapsed = false }) {
   const pathname = usePathname();
 
   const navContent = NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-    const isActive = pathname === href;
+    const isActive = pathname.startsWith(href);
     const linkClasses = cn(
       "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
       {
